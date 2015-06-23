@@ -17,19 +17,21 @@ GRANT ALL PRIVILEGES ON osama_db.* TO osama WITH GRANT OPTION;
 
 USE `osama_db`;
 
-DROP TABLE IF EXISTS `humanRessource`;
-CREATE TABLE IF NOT EXISTS `humanRessource` (
+DROP TABLE IF EXISTS `people`;
+CREATE TABLE IF NOT EXISTS `people` (
   `id` int(11) NOT NULL,
-  `username` varchar(250) COLLATE utf8_danish_ci NOT NULL,
-  `password` varchar(250) COLLATE utf8_danish_ci DEFAULT NULL,
+  `username` varchar(100) COLLATE utf8_danish_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8_danish_ci DEFAULT NULL,
   `firstname` varchar(250) COLLATE utf8_danish_ci DEFAULT NULL,
   `lastname` varchar(250) COLLATE utf8_danish_ci DEFAULT NULL,
-  `userLastLoginDatetime` datetime DEFAULT NULL,
-  `userCreatedDatetime` datetime DEFAULT NULL,
-  `userUpdatedDatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `phone` varchar(50) COLLATE utf8_danish_ci DEFAULT NULL,
+  `mail` varchar(250) COLLATE utf8_danish_ci DEFAULT NULL,
+  `lastLoginDatetime` datetime DEFAULT NULL,
+  `createdDatetime` datetime DEFAULT NULL,
+  `updatedDatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `retired` tinyint(4) NOT NULL DEFAULT '0',
-  CONSTRAINT pk_humanRessource_idx PRIMARY KEY (id),
-  CONSTRAINT udx_humanRessource_username UNIQUE KEY (`username`)
+  CONSTRAINT pk_people_idx PRIMARY KEY (id),
+  CONSTRAINT udx_people_username UNIQUE KEY (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
 
 DROP TABLE IF EXISTS `service`;
