@@ -10,10 +10,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 CREATE DATABASE IF NOT EXISTS `osama_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_danish_ci;
-USE `osama_db`;
+
 
 CREATE USER 'osama'@'localhost' IDENTIFIED BY '4t6ZsSqZp5tceqKU';
 GRANT ALL PRIVILEGES ON 'osama_db'.* TO 'osama'@'localhost' WITH GRANT OPTION; 
+
+USE `osama_db`;
 
 DROP TABLE IF EXISTS `humanRessource`;
 CREATE TABLE IF NOT EXISTS `humanRessource` (
