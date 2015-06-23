@@ -13,7 +13,7 @@ CREATE DATABASE IF NOT EXISTS `osama_db` DEFAULT CHARACTER SET utf8 COLLATE utf8
 
 DROP USER 'osama'@'localhost';
 CREATE USER 'osama'@'localhost' IDENTIFIED BY '4t6ZsSqZp5tceqKU';
-GRANT ALL PRIVILEGES ON 'osama_db'.* TO 'osama'@'localhost' WITH GRANT OPTION; 
+GRANT ALL PRIVILEGES ON osama_db.* TO osama WITH GRANT OPTION; 
 
 USE `osama_db`;
 
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `ressourcePool` (
   `updatedBy` int(11) DEFAULT NULL,
   `updatedDatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `retired` tinyint(4) NOT NULL DEFAULT '0',
-  CONSTRAINT pk_ressourcepool_idx PRIMARY KEY (id),
+  CONSTRAINT pk_ressourcepool_idx PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
 
 DROP TABLE IF EXISTS `humanPooling`;
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `humanPooling` (
   `updatedBy` int(11) DEFAULT NULL,
   `updatedDatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `retired` tinyint(4) NOT NULL DEFAULT '0',
-  CONSTRAINT pk_humanPooling_idx PRIMARY KEY (`ressourcePool_id`,`humanRessource_id`),
+  CONSTRAINT pk_humanPooling_idx PRIMARY KEY (`ressourcePool_id`,`humanRessource_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
 
 DROP TABLE IF EXISTS `servicePooling`;
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `servicePooling` (
   `updatedBy` int(11) DEFAULT NULL,
   `updatedDatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `retired` tinyint(4) NOT NULL DEFAULT '0',
-  CONSTRAINT pk_servicePooling_idx PRIMARY KEY (`ressourcePool_id`,`service_id`),
+  CONSTRAINT pk_servicePooling_idx PRIMARY KEY (`ressourcePool_id`,`service_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
 
 
@@ -178,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `feedback` (
   `durationMinutes` int(11) NOT NULL, -- duration in minutes 
   `durationHours` int(11) NOT NULL, -- duration in hours
   `createdDatetime` datetime DEFAULT NULL,
-  CONSTRAINT pk_feedback_idx PRIMARY KEY (`id`),
+  CONSTRAINT pk_feedback_idx PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
 
 
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `updatedBy` int(11) DEFAULT NULL,
   `updatedDatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `retired` tinyint(4) NOT NULL DEFAULT '0',
-  CONSTRAINT pk_role_idx PRIMARY KEY (`id`),
+  CONSTRAINT pk_role_idx PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
 
 DROP TABLE IF EXISTS `humanRole`;
@@ -207,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `humanRole` (
   `updatedBy` int(11) DEFAULT NULL,
   `updatedDatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `retired` tinyint(4) NOT NULL DEFAULT '0',
-  CONSTRAINT pk_humanRole_idx PRIMARY KEY (`role_id`,`humanRessource_id`),
+  CONSTRAINT pk_humanRole_idx PRIMARY KEY (`role_id`,`humanRessource_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
