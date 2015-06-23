@@ -14,13 +14,11 @@ sudo echo phpmyadmin phpmyadmin/dbconfig-install boolean true  | sudo debconf-se
 
 sudo apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" phpMyAdmin 
 
-
 sudo mkdir /usr/share/osama
-sudo cp ~/Osama/www/* /usr/share/osama
-sudo cp ~/Osama/setup/osama.conf /etc/apache2/conf-available
+sudo cp ~/osama/html/* /usr/share/osama
+sudo cp ~/osama/setup/osama.conf /etc/apache2/conf-available
 sudo ln -s /etc/apache2/conf-available/osama.conf /etc/apache2/conf-enabled/osama.conf
-
 
 sudo service apache2 restart
 
-mysql --user=root --password=P@ssw0rd < ~/Osama/setup/create_db.sql
+mysql --user=root --password=P@ssw0rd < ~/osama/setup/create_db.sql
