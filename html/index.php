@@ -36,7 +36,7 @@ if ($page == ""){
     padding: 10px; 
 	margin-top: 10px;
     width: 800px;
-    height: 70%; 
+    min-height: 400px; 
 	float:right;
 }
 li:not(:last-child) {
@@ -58,6 +58,11 @@ echo "<span align=center><h1>O<span style=\"color:$colorGreen;\">pen</span>S<spa
 echo "<span align=center><h2>N<span style=\"color:$colorGreen;\">avi</span>G<span style=\"color:$colorGreen;\">ation</span></h2></span>"; 
 ?>
 <ul id=menu style="list-style-type:none;padding-left:0;">
+	<li><b>Startside</b></li>
+	<ul id=submenu_dd style="list-style-type:disc">
+		<li><a href="?page=main">Startside</a></li> 
+	</ul>
+	<li>&nbsp;</li>
 	<li><b>Daglig drift</b></li>
 	<ul id=submenu_dd style="list-style-type:disc">
 		<li><a href="?page=scheduled">Planlagte opgaver</a></li> 
@@ -67,7 +72,7 @@ echo "<span align=center><h2>N<span style=\"color:$colorGreen;\">avi</span>G<spa
 	<ul id=submenu_en style="list-style-type:disc">
 		<li><a href="?page=services">Services</a></li> 
 		<li><a href="?page=pools">Ressource Pools</a></li> 
-		<li><a href="?page=people">People</a></li> 
+		<li><a href="?page=users">People</a></li> 
 		<li><a href="?page=tasks">Opgaver</a></li> 
 	</ul>
 </ul>
@@ -77,22 +82,52 @@ echo "<span align=center><h2>N<span style=\"color:$colorGreen;\">avi</span>G<spa
 $err = 0;
 	switch ($page) {
     case "main":
-        if ((include 'contentMain.php') != 'OK') $err++; 
-        break;
+		try {
+			require 'contentMain.php';
+		} catch (Exception $e) {
+			$err++;
+			$errmsg = $e->getMessage();
+		}
+       break;
     case "scheduled":
-        if ((include 'contentScheduled.php') != 'OK') $err++; 
+		try {
+			require 'contentScheduled.php';
+		} catch (Exception $e) {
+			$err++;
+			$errmsg = $e->getMessage();
+		}
         break;
     case "services":
-        if ((include 'contentServices.php') != 'OK') $err++; 
+		try {
+			require 'contentServices.php';
+		} catch (Exception $e) {
+			$err++;
+			$errmsg = $e->getMessage();
+		}
         break;
     case "pools":
-        if ((include 'contentPools.php') != 'OK') $err++; 
+		try {
+			require 'contentPools.php';
+		} catch (Exception $e) {
+			$err++;
+			$errmsg = $e->getMessage();
+		}
         break;
-    case "people":
-        if ((include 'contentPeople.php') != 'OK') $err++; 
+    case "users":
+		try {
+			require 'contentUser.php';
+		} catch (Exception $e) {
+			$err++;
+			$errmsg = $e->getMessage();
+		}
         break;
 	default:
-		$err++;
+		try {
+			require "content".$page.".php";
+		} catch (Exception $e) {
+			$err++;
+			$errmsg = $e->getMessage();
+		}
 }
         if($err>0) include("contentError.php");
 ?>
