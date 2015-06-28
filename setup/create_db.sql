@@ -10,7 +10,7 @@ SET time_zone = "+00:00";
 
 CREATE DATABASE IF NOT EXISTS `osama_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_danish_ci;
 
-DROP USER 'osama'@'localhost';
+-- DROP USER 'osama'@'localhost';
 CREATE USER 'osama'@'localhost' IDENTIFIED BY '4t6ZsSqZp5tceqKU';
 GRANT ALL PRIVILEGES ON osama_db.* TO osama WITH GRANT OPTION; 
 
@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `serviceName` varchar(250) COLLATE utf8_danish_ci NOT NULL,
-  `serviceDescription` varchar(4000) COLLATE utf8_danish_ci DEFAULT NULL,
+  `name` varchar(250) COLLATE utf8_danish_ci NOT NULL,
+  `description` varchar(4000) COLLATE utf8_danish_ci DEFAULT NULL,
   `owner` int(11) DEFAULT NULL,
    -- standard revision fields
   `createdBy` int(11) DEFAULT NULL,
@@ -56,8 +56,8 @@ DROP TABLE IF EXISTS `task`;
 CREATE TABLE IF NOT EXISTS `task` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `taskUID` varchar(250) COLLATE utf8_danish_ci NOT NULL,
-  `taskName` varchar(250) COLLATE utf8_danish_ci NOT NULL,
-  `taskDescription` varchar(40000) COLLATE utf8_danish_ci DEFAULT NULL, -- html description of the complete task
+  `name` varchar(250) COLLATE utf8_danish_ci NOT NULL,
+  `description` varchar(40000) COLLATE utf8_danish_ci DEFAULT NULL, -- html description of the complete task
   `expectedDurationMinutes` int(11) NOT NULL, -- duration in minutes 
   `expectedDurationHours` int(11) NOT NULL, -- duration in hours
   `service_id` int(11) NULL,
@@ -76,9 +76,9 @@ CREATE TABLE IF NOT EXISTS `task` (
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `serviceName` varchar(250) COLLATE utf8_danish_ci NOT NULL,
-  `serviceDescription` varchar(4000) COLLATE utf8_danish_ci DEFAULT NULL,
-  `serviceOwner` int(11) DEFAULT NULL,
+  `name` varchar(250) COLLATE utf8_danish_ci NOT NULL,
+  `description` varchar(4000) COLLATE utf8_danish_ci DEFAULT NULL,
+  `owner` int(11) DEFAULT NULL,
   -- standard revision fields
   `createdBy` int(11) DEFAULT NULL,
   `createdDatetime` datetime DEFAULT NULL,
@@ -135,9 +135,9 @@ CREATE TABLE IF NOT EXISTS `scheduledTask` (
 DROP TABLE IF EXISTS `usergroup`;
 CREATE TABLE IF NOT EXISTS `usergroup` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `usergroupName` varchar(250) COLLATE utf8_danish_ci NOT NULL,
-  `usergroupDescription` varchar(4000) COLLATE utf8_danish_ci DEFAULT NULL,
-  `usergroupOwner` int(11) DEFAULT NULL,
+  `name` varchar(250) COLLATE utf8_danish_ci NOT NULL,
+  `description` varchar(4000) COLLATE utf8_danish_ci DEFAULT NULL,
+  `owner` int(11) DEFAULT NULL,
    -- standard revision fields
   `createdBy` int(11) DEFAULT NULL,
   `createdDatetime` datetime DEFAULT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `taskfeedback` (
    -- standard revision fields
   `createdBy` int(11) DEFAULT NULL,
   `createdDatetime` datetime DEFAULT NULL,
-  `exppireDatetime` datetime DEFAULT NULL, -- if the pooling depends on a certification that runs out, this date is set.
+  `expireDatetime` datetime DEFAULT NULL, -- if the pooling depends on a certification that runs out, this date is set.
   `updatedBy` int(11) DEFAULT NULL,
   `updatedDatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `retired` tinyint(4) NOT NULL DEFAULT '0',
