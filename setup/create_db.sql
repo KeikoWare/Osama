@@ -10,7 +10,7 @@ SET time_zone = "+00:00";
 
 CREATE DATABASE IF NOT EXISTS `osama_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_danish_ci;
 
--- DROP USER 'osama'@'localhost';
+DROP USER 'osama'@'localhost';
 CREATE USER 'osama'@'localhost' IDENTIFIED BY '4t6ZsSqZp5tceqKU';
 GRANT ALL PRIVILEGES ON osama_db.* TO osama WITH GRANT OPTION; 
 
@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `lastname` varchar(250) COLLATE utf8_danish_ci DEFAULT NULL,
   `phone` varchar(50) COLLATE utf8_danish_ci DEFAULT NULL,
   `mail` varchar(250) COLLATE utf8_danish_ci DEFAULT NULL,
+  `title` varchar(250) COLLATE utf8_danish_ci DEFAULT NULL,
   `lastLoginDatetime` datetime DEFAULT NULL,
    -- standard revision fields
   `createdBy` int(11) DEFAULT NULL,
@@ -49,29 +50,29 @@ CREATE TABLE IF NOT EXISTS `service` (
   `updatedDatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `retired` tinyint(4) NOT NULL DEFAULT '0',
   CONSTRAINT pk_service_idx PRIMARY KEY (id),
-  CONSTRAINT udx_service_servicename UNIQUE KEY (`serviceName`)
+  CONSTRAINT udx_service_servicename UNIQUE KEY (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
 
-DROP TABLE IF EXISTS `task`;
 CREATE TABLE IF NOT EXISTS `task` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `taskUID` varchar(250) COLLATE utf8_danish_ci NOT NULL,
-  `name` varchar(250) COLLATE utf8_danish_ci NOT NULL,
-  `description` varchar(40000) COLLATE utf8_danish_ci DEFAULT NULL, -- html description of the complete task
+  `title` varchar(250) COLLATE utf8_danish_ci NOT NULL,
+  `prerequisites` mediumtext COLLATE utf8_danish_ci,-- html description of the prerequisites
+  `description` mediumtext COLLATE utf8_danish_ci,-- html description of the complete task
   `expectedDurationMinutes` int(11) NOT NULL, -- duration in minutes 
-  `expectedDurationHours` int(11) NOT NULL, -- duration in hours
-  `service_id` int(11) NULL,
-  `parentTask_id` int(11) NULL,
-  `usergroup_id` int(11) NULL,
+  `expectedDurationHours` int(11) NOT NULL,  -- duration in hours
+  `service_id` int(11) DEFAULT NULL,
+  `parentTask_id` int(11) DEFAULT NULL,
+  `usergroup_id` int(11) DEFAULT NULL,
    -- standard revision fields
   `createdBy` int(11) DEFAULT NULL,
   `createdDatetime` datetime DEFAULT NULL,
   `updatedBy` int(11) DEFAULT NULL,
   `updatedDatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `retired` tinyint(4) NOT NULL DEFAULT '0',
-  CONSTRAINT pk_task_idx PRIMARY KEY (id),
-  CONSTRAINT udx_task_taskName UNIQUE KEY (`taskUID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `udx_task_taskName` (`taskUID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (
@@ -86,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `service` (
   `updatedDatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `retired` tinyint(4) NOT NULL DEFAULT '0',
   CONSTRAINT pk_service_idx PRIMARY KEY (id),
-  CONSTRAINT udx_service_servicename UNIQUE KEY (`serviceName`)
+  CONSTRAINT udx_service_servicename UNIQUE KEY (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
 
 DROP TABLE IF EXISTS `taskSchedule`;
@@ -227,6 +228,31 @@ CREATE TABLE IF NOT EXISTS `userRole` (
   `retired` tinyint(4) NOT NULL DEFAULT '0',
   CONSTRAINT pk_humanRole_idx PRIMARY KEY (`role_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
+
+
+
+
+
+
+
+
+
+--
+-- Initail data for tables
+--
+
+INSERT INTO `user` (`id`, `username`, `password`, `firstname`, `lastname`, `phone`, `mail`, `title`, `lastLoginDatetime`, `createdBy`, `createdDatetime`, `updatedBy`, `updatedDatetime`, `retired`) VALUES
+(1, 'kimort', '897c8fde25c5cc5270cda61425eed3c8', 'Kim', 'Ortvald', '30590366', 'kimort@govcert.dk', 'K-CNS901', NULL, NULL, NULL, 0, '2015-05-29 08:02:00', 0), --qwerty
+(2, 'torjuu', '897c8fde25c5cc5270cda61425eed3c8', 'Torsten', 'Juul-Jensen', '21661518', 'torjuu@govcert.dk', 'CNS05', NULL, NULL, NULL, 0, '2015-05-29 08:04:00', 0), -- qwerty
+(3, 'alewan', '897c8fde25c5cc5270cda61425eed3c8', 'Alexander', 'Wang', '30354199', 'alewan@govcert.dk', 'CNS06', NULL, NULL, NULL, 0, '2015-05-29 08:03:00', 0); -- qwerty
+
+
+INSERT INTO `service` (`id`, `name`, `description`, `owner`, `createdBy`, `createdDatetime`, `updatedBy`, `updatedDatetime`, `retired`) VALUES
+(1, 'LDAP', 'ldap på ubuntu 12.04', 2, NULL, NULL, 0, '2015-05-29 06:37:00', 0),
+(2, 'Mail', 'DoveCUT og Possix på Ubuntu 12.04', 2, NULL, NULL, 0, '2015-06-24 12:19:00', 0),
+(3, 'Print Services', 'CUps på Ubuntu 12.04', 2, NULL, NULL, 0, '2015-06-24 12:19:00', 0),
+(4, 'intranet', 'Apache2, php5, Mysql 5.2 på Ubuntu 12.04', 2, NULL, NULL, 0, '2015-06-24 12:19:00', 0);
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

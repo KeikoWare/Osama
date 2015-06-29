@@ -1,3 +1,2 @@
+sudo cp -R -v -u ~/osama/html/* /usr/share/osama
 
-sudo rm /usr/share/assetmanager/* -r
-sudo cp  ~/AssetManagement/www/* /usr/share/assetmanager -r

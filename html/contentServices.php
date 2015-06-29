@@ -1,14 +1,23 @@
+<?php
+	$query = "SELECT * FROM user WHERE retired = 0";
+	$result = $conn->query($query);
+	$option = "";
+	while($row = $result->fetch_assoc()) {
+		$option .= "<option value=\"".$row["id"] . "\">".$row["firstname"] . " " .$row["lastname"]."</option>";
+	}
+?>
+
 <h1>Services</h1>
 
 <form name="myService" action="db/update.php" method="POST">
 <table>
-<tr><td>Service Navn</td><td><input name="serviceName" type=text title="Indtast servicens kaldenavn. eks LDAP."></td></tr>
-<tr><td>Service beskrivelse</td><td><textarea name="serviceDescription" title="" ></textarea></td></tr>
-<tr><td>Service Ejer</td><td><input name="serviceOwner" type=text title="eks CNS01"></td></tr>
+<tr><td>Service Navn</td><td><input name="name" type=text title="Indtast servicens kaldenavn. eks LDAP."></td></tr>
+<tr><td>Service beskrivelse</td><td><textarea name="description" title="" ></textarea></td></tr>
+<tr><td>Service Ejer</td><td><select name="owner" title="eks CNS01"><option value=""> - ingen valgt - </option><?php echo $option;?></select></td></tr>
 <tr><td></td><td><input type=submit name="_btnSubmit" value="Opret ny service"></td></tr>
 </table>
 <input type=hidden name="_table" value="service">
-<input type=text name="updatedDatetime" value="2015-06-24 14:19:00">
+<input type=hidden name="updatedDatetime" value="2015-06-24 14:19:00">
 <input type=hidden name="updatedBy" value="me">
 <input type=hidden name="_row" value="">
 </form>
@@ -36,36 +45,32 @@ function fillForm(sn,sd,so,id){
 	var year = d.getFullYear();
 	var updateDatetime = year + "-" + month + "-" + date + " " + hr + ":" + min + ":00";
 	var x = document.forms.namedItem("myService");
-	x.elements.namedItem("serviceName").value = sn;
-	x.elements.namedItem("serviceDescription").value = sd;
-	x.elements.namedItem("serviceOwner").value = so;
+	x.elements.namedItem("name").value = sn;
+	x.elements.namedItem("description").value = sd;
+	x.elements.namedItem("owner").value = so;
 	x.elements.namedItem("_row").value = id;
 	x.elements.namedItem("_btnSubmit").value = 'Opdater';
 	x.elements.namedItem("updatedDatetime").value = updateDatetime;	
 }
 </script>
 <?php
-	$query = "SELECT * FROM service ";
+	$query = "SELECT service.*, user.firstname, user.lastname FROM service LEFT JOIN user ON service.owner = user.id ";
 	$result = $conn->query($query);
 
 	if ($result->num_rows > 0) {
 		// output data of each row
 		echo "<table>";
 		while($row = $result->fetch_assoc()) {
-			echo "<tr><td onclick=\"fillForm('".$row["serviceName"]."','".$row["serviceDescription"]."','".$row["serviceOwner"]."','id=".$row["id"]."');\">";
+			echo "<tr><td onclick=\"fillForm('".$row["name"]."','".$row["description"]."','".$row["owner"]."','id=".$row["id"]."');\" style=\"background-color:$colorGreen; cursor: pointer; cursor: hand;\">";
 			echo $row["id"];
 			echo "</td><td>";
-			echo $row["serviceName"];
+			echo $row["name"];
 			echo "</td><td>";
-			echo $row["serviceDescription"];
+			echo $row["description"];
 			echo "</td><td>";
-			echo $row["serviceOwner"];			
+			echo $row["firstname"] . " " . $row["lastname"];			
 			echo "</td><td>";
-			echo $row["createdDatetime"];			
-			echo "</td><td>";
-			echo $row["updatedDatetime"];			
-			echo "</td><td>";
-			echo $row["retired"];			
+			echo "<a href='?page=tasks&service=".$row["id"]."'>tasks</a>";
 			echo "</td></tr>";
 		}
 		echo "</table>";

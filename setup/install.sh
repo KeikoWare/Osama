@@ -15,7 +15,8 @@ sudo echo phpmyadmin phpmyadmin/dbconfig-install boolean true  | sudo debconf-se
 sudo apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" phpMyAdmin 
 
 sudo mkdir /usr/share/osama
-sudo cp ~/osama/html/* /usr/share/osama
+sudo cp -R ~/osama/html/* /usr/share/osama
+sudo chmod -R 777 /usr/share/osama/*
 sudo cp ~/osama/setup/osama.conf /etc/apache2/conf-available
 sudo ln -s /etc/apache2/conf-available/osama.conf /etc/apache2/conf-enabled/osama.conf
 

@@ -4,6 +4,7 @@
 <table>
 <tr><td>Username</td><td><input name="username" type=text title="Indtast brugerens username"></td></tr>
 <tr><td>password</td><td><input name="password" type=text title="" ></td></tr>
+<tr><td>Titel</td><td><input name="title" type=text title=""></td></tr>
 <tr><td>Fornavn</td><td><input name="firstname" type=text title=""></td></tr>
 <tr><td>Efternavn</td><td><input name="lastname" type=text title=""></td></tr>
 <tr><td>E-Mail</td><td><input name="mail" type=text title=""></td></tr>
@@ -18,7 +19,7 @@
 <br><br>
 <script language="Javascript">
 
-function fillForm(un,pw,fn,ln,em,ph,id){
+function fillForm(un,pw,fn,ln,em,ti,ph,id){
 	var x = document.forms.namedItem("myUser");
 	var d = new Date();
 	var hr = d.getHours();
@@ -44,6 +45,7 @@ function fillForm(un,pw,fn,ln,em,ph,id){
 	x.elements.namedItem("firstname").value = fn;
 	x.elements.namedItem("lastname").value = ln;
 	x.elements.namedItem("mail").value = em;
+	x.elements.namedItem("title").value = ti;
 	x.elements.namedItem("phone").value = ph;
 	x.elements.namedItem("_row").value = id;
 	x.elements.namedItem("updatedDatetime").value = updateDatetime;
@@ -58,10 +60,10 @@ function fillForm(un,pw,fn,ln,em,ph,id){
 		// output data of each row
 		echo "<table>";
 		while($row = $result->fetch_assoc()) {
-			echo "<tr><td onclick=\"fillForm('".$row["username"]."','".$row["password"]."','".$row["firstname"]."','".$row["lastname"]."','".$row["phone"]."','".$row["mail"]."','id=".$row["id"]."');\">";
+			echo "<tr><td onclick=\"fillForm('".$row["username"]."','".$row["password"]."','".$row["firstname"]."','".$row["lastname"]."','".$row["mail"]."','".$row["title"]."','".$row["phone"]."','id=".$row["id"]."');\" style=\"background-color:$colorGreen; cursor: pointer; cursor: hand;\">";
 			echo $row["id"];
 			echo "</td><td>";
-			echo $row["username"];
+			echo $row["title"];
 			echo "</td><td>";
 			echo $row["firstname"];			
 			echo "</td><td>";

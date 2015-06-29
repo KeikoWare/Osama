@@ -70,9 +70,9 @@ echo "<span align=center><h2>N<span style=\"color:$colorGreen;\">avi</span>G<spa
 	<li>&nbsp;</li>
 	<li><b>Entiteter</b></li>
 	<ul id=submenu_en style="list-style-type:disc">
+		<li><a href="?page=users">Brugere</a></li> 
 		<li><a href="?page=services">Services</a></li> 
 		<li><a href="?page=pools">Ressource Pools</a></li> 
-		<li><a href="?page=users">People</a></li> 
 		<li><a href="?page=tasks">Opgaver</a></li> 
 	</ul>
 </ul>
@@ -121,9 +121,17 @@ $err = 0;
 			$errmsg = $e->getMessage();
 		}
         break;
+    case "tasks":
+		try {
+			require 'contentTasks.php';
+		} catch (Exception $e) {
+			$err++;
+			$errmsg = $e->getMessage();
+		}
+        break;
 	default:
 		try {
-			require "content".$page.".php";
+			require "content".ucword($page).".php";
 		} catch (Exception $e) {
 			$err++;
 			$errmsg = $e->getMessage();

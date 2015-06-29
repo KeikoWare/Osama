@@ -33,11 +33,13 @@ if($table == ""){
 
 			if($value != "" && substr($key,0,1) != "_"){			
 				$attributes .= "$key, ";
+				if(substr($key,0,4) == "pass") $value = md5($value);		
 				$values .= "'$value', ";
 			}  
 		}
 		$attributes = substr($attributes,0,strlen($attributes)-2);
 		$values = substr($values,0,strlen($values)-2);
+
 		$sql .= "($attributes) VALUES ($values)";
 	} else {
 		//UPDATE
@@ -47,7 +49,8 @@ if($table == ""){
 			// $value = mysql_real_escape_string( $value );  
 			// $value = addslashes($value);  
 			// $value = strip_tags($value);  
-			if(substr($key,0,1) != "_"){			
+			if(substr($key,0,1) != "_"){
+				if(substr($key,0,4) == "pass") $value = md5($value);		
 				$sql .= "$key = '$value', ";
 			}
 		}
@@ -55,6 +58,7 @@ if($table == ""){
 		$sql .= " WHERE $row";
 	}
 }
+
 
 if ($conn->query($sql) === TRUE) {
     $result =  "New record created successfully " . $sql;
